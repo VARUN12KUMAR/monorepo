@@ -1,0 +1,28 @@
+Table users {
+  id UUID [pk]
+  email varchar [unique, not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table tasks {
+  id UUID [pk]
+  title varchar [not null]
+  description text
+  status task_status [not null, default: 'PENDING']
+  created_by UUID [ref: > users.id]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table task_shares {
+  id UUID [pk]
+  task_id UUID [ref: > tasks.id]
+  user_id UUID [ref: > users.id]
+  created_at timestamp [default: `now()`]
+}
+
+Enum task_status {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+} 
